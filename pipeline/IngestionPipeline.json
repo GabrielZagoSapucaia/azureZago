@@ -40,13 +40,21 @@
 				"inputs": [
 					{
 						"referenceName": "DataSetCarloca",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"tableName": "loc_item_locacao"
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "Parquet1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "1ingestion",
+							"folder": "carloca_ingestion",
+							"file": "loc_item_locacao.parquet"
+						}
 					}
 				]
 			}
