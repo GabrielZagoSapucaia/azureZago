@@ -16,8 +16,12 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output",
+						"type": "Expression"
+					},
 					"isSequential": false,
-					"batchCount": 0,
+					"batchCount": 1,
 					"activities": [
 						{
 							"name": "Copy data2",
