@@ -99,7 +99,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "MySqlSource",
-						"query": "SELECT TABLE_NAME \nFROM TABLES\nWHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='dbName'"
+						"query": "SELECT TABLE_NAME \nFROM information_schema.tables;"
 					},
 					"dataset": {
 						"referenceName": "DataSetLookup",
