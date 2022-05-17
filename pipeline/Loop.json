@@ -57,7 +57,13 @@
 							"inputs": [
 								{
 									"referenceName": "DataSetCarloca",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
@@ -65,8 +71,12 @@
 									"referenceName": "Parquet1",
 									"type": "DatasetReference",
 									"parameters": {
-										"container": "1ingestion",
-										"folder": "carloca_ingestion"
+										"container": "ingestion",
+										"folder": "carloca_ingestion",
+										"file": {
+											"value": "@concat(item(),'.parquet')",
+											"type": "Expression"
+										}
 									}
 								}
 							]
@@ -92,9 +102,10 @@
 						"query": "SELECT TABLE_NAME \nFROM TABLES\nWHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='dbName'"
 					},
 					"dataset": {
-						"referenceName": "DataSetCarloca",
+						"referenceName": "DataSetLookup",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
