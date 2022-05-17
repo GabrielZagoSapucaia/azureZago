@@ -63,7 +63,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"tableName": {
-											"value": "@item()",
+											"value": "@item().value",
 											"type": "Expression"
 										}
 									}
@@ -77,7 +77,7 @@
 										"container": "ingestion",
 										"folder": "carloca_ingestion",
 										"file": {
-											"value": "@concat(item(),'.parquet')",
+											"value": "@concat(item().value,'.parquet')",
 											"type": "Expression"
 										}
 									}
