@@ -8,7 +8,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "ListaTabelas",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -17,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('ListaTabelas').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -89,7 +89,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "ListaTabelas",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
