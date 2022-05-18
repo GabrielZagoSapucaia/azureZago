@@ -17,10 +17,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output",
+						"value": "@activity('Lookup1').output.value",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
+					"batchCount": 1,
 					"activities": [
 						{
 							"name": "Copy data2",
@@ -77,7 +78,7 @@
 										"container": "ingestion",
 										"folder": "carloca_ingestion",
 										"file": {
-											"value": "@concat(item().value,'.parquet')",
+											"value": "@concat(item(),'.parquet')",
 											"type": "Expression"
 										}
 									}
