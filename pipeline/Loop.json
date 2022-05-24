@@ -78,7 +78,7 @@
 										"container": "ingestion",
 										"folder": "carloca_ingestion",
 										"file": {
-											"value": "@concat(item().TABLE_NAME,'.parquet')",
+											"value": "@item().TABLE_NAME",
 											"type": "Expression"
 										}
 									}
