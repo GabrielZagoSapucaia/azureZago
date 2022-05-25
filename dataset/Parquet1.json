@@ -2,7 +2,7 @@
 	"name": "Parquet1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorageIngestion",
+			"referenceName": "DtLakeStorage",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -21,18 +21,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@concat(dataset().file,'.parquet')",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@dataset().folder",
-					"type": "Expression"
-				},
-				"fileSystem": {
-					"value": "@dataset().container",
-					"type": "Expression"
-				}
+				"fileName": "@dataset().file",
+				"folderPath": "@dataset().folder",
+				"fileSystem": "@dataset().container"
 			},
 			"compressionCodec": "snappy"
 		},
