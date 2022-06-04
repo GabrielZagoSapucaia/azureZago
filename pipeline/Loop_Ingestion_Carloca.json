@@ -1,5 +1,5 @@
 {
-	"name": "Loop",
+	"name": "Loop_Ingestion_Carloca",
 	"properties": {
 		"description": "ingestão de tabelas",
 		"activities": [
@@ -106,7 +106,7 @@
 						"query": "SELECT TABLE_NAME \nFROM information_schema.tables;"
 					},
 					"dataset": {
-						"referenceName": "DataSetLookup",
+						"referenceName": "DataSetLookupCarloca",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
