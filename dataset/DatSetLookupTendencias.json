@@ -1,0 +1,12 @@
+{
+	"name": "DatSetLookupTendencias",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerTendencias",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
