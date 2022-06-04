@@ -2,7 +2,7 @@
 	"name": "Parquet1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "DtLakeStorage",
+			"referenceName": "AzureDataLakeStorageIngestion",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
