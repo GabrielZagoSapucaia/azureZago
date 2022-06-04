@@ -14,7 +14,7 @@
 		"type": "SqlServerTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "masterUber",
+			"schema": "",
 			"table": {
 				"value": "@dataset().tableName",
 				"type": "Expression"
