@@ -1,5 +1,5 @@
 {
-	"name": "ItemLocacaoTransform",
+	"name": "ItemPedidoLocacaoTransform",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorageIngestion",
