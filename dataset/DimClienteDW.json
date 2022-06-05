@@ -1,0 +1,21 @@
+{
+	"name": "DimClienteDW",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageIngestion",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimCliente.parquet",
+				"folderPath": "DW_CARLOCA",
+				"fileSystem": "query"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
