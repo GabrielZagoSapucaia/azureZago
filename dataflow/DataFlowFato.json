@@ -1,0 +1,46 @@
+{
+	"name": "DataFlowFato",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "DimTempo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimVeiculoDW",
+						"type": "DatasetReference"
+					},
+					"name": "DimVeiculo"
+				},
+				{
+					"name": "DimLocal"
+				},
+				{
+					"name": "DimCliente"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> DimTempo",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> DimVeiculo",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> DimLocal",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> DimCliente",
+				"DimVeiculo select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
+			]
+		}
+	}
+}
