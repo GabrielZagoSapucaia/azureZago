@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "loc_pedido_locacao_transform.parquet",
+				"fileName": "loc_cliente_transform.parquet",
 				"folderPath": "carloca_transform",
 				"fileSystem": "transform"
 			},
