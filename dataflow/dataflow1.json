@@ -34,9 +34,6 @@
 				},
 				{
 					"name": "surrogateKey1"
-				},
-				{
-					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -89,22 +86,6 @@
 				"select1 keyGenerate(output(id_Tempo as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
-				"SourceCliente select(mapColumn(",
-				"          Nr_Pedido,",
-				"          Dt_Locacao,",
-				"          Cd_Cliente,",
-				"          Cd_Agencia,",
-				"          Qt_Dias,",
-				"          Vl_Total,",
-				"          Status,",
-				"          Dt_Retirada,",
-				"          Dt_Entrega,",
-				"          Cd_Func,",
-				"          Dt_Pagto,",
-				"          Cd_Age_Bco",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
