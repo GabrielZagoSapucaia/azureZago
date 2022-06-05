@@ -31,6 +31,27 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceEstado"
+				},
+				{
+					"dataset": {
+						"referenceName": "CorTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCor"
+				},
+				{
+					"dataset": {
+						"referenceName": "VeiculoTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceVeiculo"
+				},
+				{
+					"dataset": {
+						"referenceName": "TipoAutomovelTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceAutomovel"
 				}
 			],
 			"sinks": [
@@ -77,6 +98,18 @@
 				},
 				{
 					"name": "surrogateKey3"
+				},
+				{
+					"name": "JoinVeiculo"
+				},
+				{
+					"name": "select4"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select5"
 				}
 			],
 			"scriptLines": [
@@ -127,6 +160,39 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceEstado",
+				"source(output(",
+				"          cd_Cor as integer,",
+				"          Desc_Cor as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceCor",
+				"source(output(",
+				"          Nr_Placa as string,",
+				"          Cd_Proprietario as integer,",
+				"          Nr_Chassis as string,",
+				"          Status as string,",
+				"          Km_Atual as integer,",
+				"          Tp_Automovel as integer,",
+				"          Tp_Combustivel as integer,",
+				"          cd_Modelo as integer,",
+				"          cd_cor as integer,",
+				"          cd_grupo as integer,",
+				"          Vl_Diaria as decimal(38,18)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceVeiculo",
+				"source(output(",
+				"          cd_Tp_Automovel as integer,",
+				"          Nm_Tp_Automovel as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceAutomovel",
 				"SourceItemLocacao select(mapColumn(",
 				"          Cd_Cliente,",
 				"          Nr_Pedido,",
@@ -163,6 +229,32 @@
 				"select3 keyGenerate(output(id_local as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey3",
+				"SourceVeiculo, SourceAutomovel join(Tp_Automovel == cd_Tp_Automovel,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> JoinVeiculo",
+				"JoinVeiculo select(mapColumn(",
+				"          Km_Atual,",
+				"          Tp_Combustivel,",
+				"          cd_Modelo,",
+				"          cd_cor,",
+				"          Vl_Diaria,",
+				"          Nm_Tp_Automovel",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
+				"select4, SourceCor join(select4@cd_cor == SourceCor@cd_Cor,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          Km_Atual,",
+				"          Tp_Combustivel,",
+				"          cd_Modelo,",
+				"          Vl_Diaria,",
+				"          TipoAutomovel = Nm_Tp_Automovel,",
+				"          Cor = Desc_Cor",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select5",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",

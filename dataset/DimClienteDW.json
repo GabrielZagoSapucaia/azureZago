@@ -5,6 +5,9 @@
 			"referenceName": "AzureDataLakeStorageIngestion",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "DW"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

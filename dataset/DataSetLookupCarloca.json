@@ -5,6 +5,9 @@
 			"referenceName": "MySqlCarloca",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Ingestion"
+		},
 		"annotations": [],
 		"type": "MySqlTable",
 		"schema": []

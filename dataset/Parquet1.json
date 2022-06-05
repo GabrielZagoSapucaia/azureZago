@@ -16,6 +16,9 @@
 				"type": "string"
 			}
 		},
+		"folder": {
+			"name": "Ingestion"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

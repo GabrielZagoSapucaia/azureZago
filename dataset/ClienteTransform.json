@@ -5,6 +5,9 @@
 			"referenceName": "AzureDataLakeStorageIngestion",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "DataSetsTransform"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
