@@ -501,7 +501,7 @@
 						"parameters": {
 							"container": "transform",
 							"folder": "carloca_transform",
-							"file": "loc_modelo.parquet"
+							"file": "loc_modelo_transform.parquet"
 						}
 					}
 				]
@@ -564,7 +564,7 @@
 						"parameters": {
 							"container": "transform",
 							"folder": "carloca_transform",
-							"file": "loc_tp_combustivel.parquet"
+							"file": "loc_tp_combustivel_transform.parquet"
 						}
 					}
 				]
