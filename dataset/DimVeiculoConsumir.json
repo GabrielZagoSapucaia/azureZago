@@ -1,0 +1,24 @@
+{
+	"name": "DimVeiculoConsumir",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageIngestion",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "CriaFato"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimVeiculo.parquet",
+				"folderPath": "DW_CARLOCA",
+				"fileSystem": "query"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
