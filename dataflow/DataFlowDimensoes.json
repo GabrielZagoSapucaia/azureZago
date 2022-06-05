@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ItemPedidoLocacaoTransform",
+						"referenceName": "PedidoLocacaoTransform",
 						"type": "DatasetReference"
 					},
 					"name": "SourcePedidoLocacao"
@@ -66,6 +66,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceCombustivel"
+				},
+				{
+					"dataset": {
+						"referenceName": "ItemTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceItem"
+				},
+				{
+					"dataset": {
+						"referenceName": "AgenciaTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceAgencia"
 				}
 			],
 			"sinks": [
@@ -96,6 +110,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "FatoDW",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -146,6 +167,42 @@
 				},
 				{
 					"name": "surrogateKey4"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "join3"
+				},
+				{
+					"name": "join4"
+				},
+				{
+					"name": "join5"
+				},
+				{
+					"name": "join6"
+				},
+				{
+					"name": "join7"
+				},
+				{
+					"name": "join8"
+				},
+				{
+					"name": "join9"
+				},
+				{
+					"name": "select8"
+				},
+				{
+					"name": "surrogateKey5"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -246,6 +303,25 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceCombustivel",
+				"source(output(",
+				"          Nr_Pedido as integer,",
+				"          Nr_Placa as string,",
+				"          Vl_Diaria as decimal(38,18),",
+				"          Vl_Diaria_Calc as decimal(38,18)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceItem",
+				"source(output(",
+				"          cd_Agencia as integer,",
+				"          Nm_Agencia as string,",
+				"          cd_Cidade as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceAgencia",
 				"SourcePedidoLocacao select(mapColumn(",
 				"          Dt_Locacao,",
 				"          Dt_Retirada,",
@@ -334,6 +410,61 @@
 				"select7 keyGenerate(output(id_Veiculo as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey4",
+				"SourcePedidoLocacao, SourceCliente join(SourcePedidoLocacao@Cd_Cliente == SourceCliente@Cd_cliente,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join1",
+				"join1, SourceItem join(SourcePedidoLocacao@Nr_Pedido == SourceItem@Nr_Pedido,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join2",
+				"join2, SourceVeiculo join(SourceItem@Nr_Placa == SourceVeiculo@Nr_Placa,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join3",
+				"join3, SourceAutomovel join(Tp_Automovel == cd_Tp_Automovel,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join4",
+				"join4, SourceCor join(SourceVeiculo@cd_cor == SourceCor@cd_Cor,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join5",
+				"join5, SourceModelo join(SourceVeiculo@cd_Modelo == SourceModelo@cd_Modelo,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join6",
+				"join6, SourceAgencia join(SourcePedidoLocacao@Cd_Agencia == SourceAgencia@cd_Agencia,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join7",
+				"join7, SourceCidade join(SourceAgencia@cd_Cidade == SourceCidade@Cd_Cidade,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join8",
+				"join8, SourceEstado join(SourceCidade@Cd_Estado == SourceEstado@Cd_Estado,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join9",
+				"join9 select(mapColumn(",
+				"          Nr_Pedido = SourcePedidoLocacao@Nr_Pedido,",
+				"          Dt_Locacao,",
+				"          Cd_Cliente = SourcePedidoLocacao@Cd_Cliente,",
+				"          Qt_Dias,",
+				"          Vl_Total,",
+				"          Status = SourcePedidoLocacao@Status,",
+				"          Dt_Retirada,",
+				"          Dt_Entrega,",
+				"          Dt_Pagto,",
+				"          Nm_Cliente,",
+				"          Nr_Estrelas,",
+				"          Vl_Diaria = SourceItem@Vl_Diaria,",
+				"          Km_Atual,",
+				"          Tp_Combustivel,",
+				"          Nm_Tp_Automovel,",
+				"          Desc_Cor,",
+				"          Nm_Modelo,",
+				"          Nm_Cidade,",
+				"          Nm_Estado,",
+				"          Sigla_Estado",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select8",
+				"select8 keyGenerate(output(idFato as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey5",
+				"surrogateKey5 derive(ANO_LOCACAO = toString(year(Dt_Locacao))) ~> derivedColumn1",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -373,7 +504,16 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     partitionBy('hash', 1)) ~> sink1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     rowUrlColumn:'ANO_LOCACAO',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink2"
 			]
 		}
 	}
