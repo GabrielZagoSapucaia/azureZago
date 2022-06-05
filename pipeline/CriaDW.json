@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DataFlowTempo",
+				"name": "DataFlowDimensoes",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "DataFlowDW",
+						"referenceName": "DataFlowDimensoes",
 						"type": "DataFlowReference"
 					},
 					"compute": {
