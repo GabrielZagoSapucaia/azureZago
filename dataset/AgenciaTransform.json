@@ -1,0 +1,37 @@
+{
+	"name": "AgenciaTransform",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageIngestion",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DataSetsTransform"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "loc_agencia_transform.parquet",
+				"folderPath": "carloca_transform",
+				"fileSystem": "transform"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "cd_Agencia",
+				"type": "INT32"
+			},
+			{
+				"name": "Nm_Agencia",
+				"type": "UTF8"
+			},
+			{
+				"name": "cd_Cidade",
+				"type": "INT32"
+			}
+		]
+	}
+}
