@@ -258,7 +258,6 @@
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
 				"SourceCliente select(mapColumn(",
-				"          Cd_cliente,",
 				"          Nm_Cliente,",
 				"          Nr_Estrelas",
 				"     ),",
