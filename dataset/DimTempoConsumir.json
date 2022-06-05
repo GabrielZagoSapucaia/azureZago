@@ -19,6 +19,27 @@
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "Dt_Locacao",
+				"type": "INT96"
+			},
+			{
+				"name": "Dt_Retirada",
+				"type": "INT96"
+			},
+			{
+				"name": "Dt_Entrega",
+				"type": "INT96"
+			},
+			{
+				"name": "Dt_Pagto",
+				"type": "INT96"
+			},
+			{
+				"name": "id_Tempo",
+				"type": "INT64"
+			}
+		]
 	}
 }

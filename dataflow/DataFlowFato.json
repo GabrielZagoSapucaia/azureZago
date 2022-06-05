@@ -5,19 +5,31 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "DimTempoConsumir",
+						"type": "DatasetReference"
+					},
 					"name": "DimTempo"
 				},
 				{
 					"dataset": {
-						"referenceName": "DimVeiculoDW",
+						"referenceName": "DimVeiculoConsumir",
 						"type": "DatasetReference"
 					},
 					"name": "DimVeiculo"
 				},
 				{
+					"dataset": {
+						"referenceName": "DimLocalConsumir",
+						"type": "DatasetReference"
+					},
 					"name": "DimLocal"
 				},
 				{
+					"dataset": {
+						"referenceName": "DimClienteConsumir",
+						"type": "DatasetReference"
+					},
 					"name": "DimCliente"
 				}
 			],
@@ -28,17 +40,55 @@
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> DimTempo",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          Dt_Locacao as timestamp,",
+				"          Dt_Retirada as timestamp,",
+				"          Dt_Entrega as timestamp,",
+				"          Dt_Pagto as timestamp,",
+				"          id_Tempo as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> DimTempo",
+				"source(output(",
+				"          Km_Atual as integer,",
+				"          Vl_Diaria as decimal(38,18),",
+				"          TipoAutomovel as string,",
+				"          Cor as string,",
+				"          Modelo as string,",
+				"          Combustivel as string,",
+				"          id_Veiculo as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> DimVeiculo",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> DimLocal",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> DimCliente",
-				"DimVeiculo select(skipDuplicateMapInputs: true,",
+				"source(output(",
+				"          Nm_Cidade as string,",
+				"          Nm_Estado as string,",
+				"          Sigla_Estado as string,",
+				"          id_local as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> DimLocal",
+				"source(output(",
+				"          Nm_Cliente as string,",
+				"          Nr_Estrelas as integer,",
+				"          id_Cliente as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> DimCliente",
+				"DimCliente select(mapColumn(",
+				"          Nm_Cliente,",
+				"          Nr_Estrelas,",
+				"          id_Cliente",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}

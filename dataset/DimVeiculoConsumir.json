@@ -19,6 +19,37 @@
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "Km_Atual",
+				"type": "INT32"
+			},
+			{
+				"name": "Vl_Diaria",
+				"type": "DECIMAL",
+				"precision": 38,
+				"scale": 18
+			},
+			{
+				"name": "TipoAutomovel",
+				"type": "UTF8"
+			},
+			{
+				"name": "Cor",
+				"type": "UTF8"
+			},
+			{
+				"name": "Modelo",
+				"type": "UTF8"
+			},
+			{
+				"name": "Combustivel",
+				"type": "UTF8"
+			},
+			{
+				"name": "id_Veiculo",
+				"type": "INT64"
+			}
+		]
 	}
 }
