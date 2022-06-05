@@ -1,5 +1,5 @@
 {
-	"name": "DataFlowTempo",
+	"name": "DataFlowDW",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceItemLocacao"
+				},
+				{
+					"dataset": {
+						"referenceName": "ClienteTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCliente"
 				}
 			],
 			"sinks": [
@@ -19,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkDimTempo"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimClienteDW",
+						"type": "DatasetReference"
+					},
+					"name": "SinkDimCliente"
 				}
 			],
 			"transformations": [
@@ -27,6 +41,12 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "surrogateKey2"
 				}
 			],
 			"scriptLines": [
@@ -48,6 +68,17 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceItemLocacao",
+				"source(output(",
+				"          Cd_cliente as integer,",
+				"          Nm_Cliente as string,",
+				"          Cd_Tp_Cliente as integer,",
+				"          Nr_Estrelas as integer,",
+				"          Nr_Habilitacao as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceCliente",
 				"SourceItemLocacao select(mapColumn(",
 				"          Cd_Cliente_Tempo = Cd_Cliente,",
 				"          Nr_Pedido_Tempo = Nr_Pedido,",
@@ -61,6 +92,16 @@
 				"select1 keyGenerate(output(id_Tempo as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
+				"SourceCliente select(mapColumn(",
+				"          Cd_cliente,",
+				"          Nm_Cliente,",
+				"          Nr_Estrelas",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 keyGenerate(output(id_Cliente as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey2",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -70,7 +111,17 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> SinkDimTempo"
+				"     partitionBy('hash', 1)) ~> SinkDimTempo",
+				"surrogateKey2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['DimCliente'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> SinkDimCliente"
 			]
 		}
 	}
