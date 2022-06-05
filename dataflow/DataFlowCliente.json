@@ -1,0 +1,39 @@
+{
+	"name": "DataFlowCliente",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ClienteTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCliente"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Nr_Pedido as integer,",
+				"          Dt_Locacao as timestamp,",
+				"          Cd_Cliente as integer,",
+				"          Cd_Agencia as integer,",
+				"          Qt_Dias as integer,",
+				"          Vl_Total as decimal(38,18),",
+				"          Status as string,",
+				"          Dt_Retirada as timestamp,",
+				"          Dt_Entrega as timestamp,",
+				"          Cd_Func as integer,",
+				"          Dt_Pagto as timestamp,",
+				"          Cd_Age_Bco as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceCliente"
+			]
+		}
+	}
+}
