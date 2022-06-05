@@ -21,16 +21,12 @@
 		},
 		"schema": [
 			{
-				"name": "cd_Modelo",
+				"name": "cd_Tp_Combustivel",
 				"type": "INT32"
 			},
 			{
-				"name": "Nm_Modelo",
+				"name": "Nm_Tp_Combustivelcol",
 				"type": "UTF8"
-			},
-			{
-				"name": "cd_Fabricante",
-				"type": "INT32"
 			}
 		]
 	}
