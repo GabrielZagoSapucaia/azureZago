@@ -52,6 +52,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceAutomovel"
+				},
+				{
+					"dataset": {
+						"referenceName": "ModeloTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceModelo"
+				},
+				{
+					"dataset": {
+						"referenceName": "CombustivelTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCombustivel"
 				}
 			],
 			"sinks": [
@@ -75,6 +89,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkDimLocal"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimVeiculoDW",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -106,10 +127,25 @@
 					"name": "select4"
 				},
 				{
-					"name": "join1"
+					"name": "JoinVeiculo2"
 				},
 				{
 					"name": "select5"
+				},
+				{
+					"name": "JoinVeiculo3"
+				},
+				{
+					"name": "select6"
+				},
+				{
+					"name": "JoinVeiculo4"
+				},
+				{
+					"name": "select7"
+				},
+				{
+					"name": "surrogateKey4"
 				}
 			],
 			"scriptLines": [
@@ -193,6 +229,23 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceAutomovel",
+				"source(output(",
+				"          cd_Modelo as integer,",
+				"          Nm_Modelo as string,",
+				"          cd_Fabricante as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceModelo",
+				"source(output(",
+				"          cd_Tp_Combustivel as integer,",
+				"          Nm_Tp_Combustivelcol as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceCombustivel",
 				"SourceItemLocacao select(mapColumn(",
 				"          Cd_Cliente,",
 				"          Nr_Pedido,",
@@ -244,8 +297,8 @@
 				"     skipDuplicateMapOutputs: true) ~> select4",
 				"select4, SourceCor join(select4@cd_cor == SourceCor@cd_Cor,",
 				"     joinType:'inner',",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
+				"     broadcast: 'auto')~> JoinVeiculo2",
+				"JoinVeiculo2 select(mapColumn(",
 				"          Km_Atual,",
 				"          Tp_Combustivel,",
 				"          cd_Modelo,",
@@ -255,6 +308,35 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select5",
+				"select5, SourceModelo join(select5@cd_Modelo == SourceModelo@cd_Modelo,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> JoinVeiculo3",
+				"JoinVeiculo3 select(mapColumn(",
+				"          Km_Atual,",
+				"          Tp_Combustivel,",
+				"          Vl_Diaria,",
+				"          TipoAutomovel,",
+				"          Cor,",
+				"          Modelo = Nm_Modelo",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select6",
+				"select6, SourceCombustivel join(Tp_Combustivel == cd_Tp_Combustivel,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> JoinVeiculo4",
+				"JoinVeiculo4 select(mapColumn(",
+				"          Km_Atual,",
+				"          Vl_Diaria,",
+				"          TipoAutomovel,",
+				"          Cor,",
+				"          Modelo,",
+				"          Combustivel = Nm_Tp_Combustivelcol",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select7",
+				"select7 keyGenerate(output(id_Veiculo as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey4",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
@@ -284,7 +366,17 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> SinkDimLocal"
+				"     partitionBy('hash', 1)) ~> SinkDimLocal",
+				"surrogateKey4 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['DimVeiculo'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
