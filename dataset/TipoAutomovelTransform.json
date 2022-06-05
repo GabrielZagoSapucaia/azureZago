@@ -16,6 +16,15 @@
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "cd_Tp_Automovel",
+				"type": "INT32"
+			},
+			{
+				"name": "Nm_Tp_Automovel",
+				"type": "UTF8"
+			}
+		]
 	}
 }
