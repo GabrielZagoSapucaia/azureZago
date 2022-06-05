@@ -1,0 +1,37 @@
+{
+	"name": "CombustivelTransform",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageIngestion",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DataSetsTransform"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "loc_tp_combustivel_transform.parquet",
+				"folderPath": "carloca_transform",
+				"fileSystem": "transform"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "cd_Modelo",
+				"type": "INT32"
+			},
+			{
+				"name": "Nm_Modelo",
+				"type": "UTF8"
+			},
+			{
+				"name": "cd_Fabricante",
+				"type": "INT32"
+			}
+		]
+	}
+}
