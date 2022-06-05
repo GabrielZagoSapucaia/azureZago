@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "SourceItemLocacao"
+				},
+				{
+					"dataset": {
+						"referenceName": "ClienteTransform",
+						"type": "DatasetReference"
+					},
+					"name": "SourceCliente"
 				}
 			],
 			"sinks": [
@@ -27,6 +34,9 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -48,6 +58,24 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceItemLocacao",
+				"source(output(",
+				"          Nr_Pedido as integer,",
+				"          Dt_Locacao as timestamp,",
+				"          Cd_Cliente as integer,",
+				"          Cd_Agencia as integer,",
+				"          Qt_Dias as integer,",
+				"          Vl_Total as decimal(38,18),",
+				"          Status as string,",
+				"          Dt_Retirada as timestamp,",
+				"          Dt_Entrega as timestamp,",
+				"          Cd_Func as integer,",
+				"          Dt_Pagto as timestamp,",
+				"          Cd_Age_Bco as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SourceCliente",
 				"SourceItemLocacao select(mapColumn(",
 				"          Cd_Cliente_Tempo = Cd_Cliente,",
 				"          Nr_Pedido_Tempo = Nr_Pedido,",
@@ -61,6 +89,22 @@
 				"select1 keyGenerate(output(id_Tempo as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
+				"SourceCliente select(mapColumn(",
+				"          Nr_Pedido,",
+				"          Dt_Locacao,",
+				"          Cd_Cliente,",
+				"          Cd_Agencia,",
+				"          Qt_Dias,",
+				"          Vl_Total,",
+				"          Status,",
+				"          Dt_Retirada,",
+				"          Dt_Entrega,",
+				"          Cd_Func,",
+				"          Dt_Pagto,",
+				"          Cd_Age_Bco",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
 				"surrogateKey1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
