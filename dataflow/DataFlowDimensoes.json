@@ -247,8 +247,6 @@
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceCombustivel",
 				"SourcePedidoLocacao select(mapColumn(",
-				"          Cd_Cliente,",
-				"          Nr_Pedido,",
 				"          Dt_Locacao,",
 				"          Dt_Retirada,",
 				"          Dt_Entrega,",
