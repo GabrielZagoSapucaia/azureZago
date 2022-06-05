@@ -9,7 +9,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DimVeiculoConsumir",
+						"referenceName": "DimVeiculoDW",
 						"type": "DatasetReference"
 					},
 					"name": "DimVeiculo"

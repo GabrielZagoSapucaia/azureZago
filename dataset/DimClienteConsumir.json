@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "DimCliente.parquet",
+				"fileName": "DimCliente",
 				"folderPath": "DW_CARLOCA",
 				"fileSystem": "query"
 			},
