@@ -1,5 +1,5 @@
 {
-	"name": "DimVeiculoConsumir",
+	"name": "DimLocalConsumir",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorageIngestion",
@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "DimVeiculo",
+				"fileName": "DimLocal",
 				"folderPath": "DW_CARLOCA",
 				"fileSystem": "query"
 			},
