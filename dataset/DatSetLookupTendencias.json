@@ -5,6 +5,9 @@
 			"referenceName": "SqlServerTendencias",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "uber"
+		},
 		"annotations": [],
 		"type": "SqlServerTable",
 		"schema": []
