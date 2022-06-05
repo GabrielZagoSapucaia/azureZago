@@ -6,10 +6,10 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ItemLocacaoTransform",
+						"referenceName": "ItemPedidoLocacaoTransform",
 						"type": "DatasetReference"
 					},
-					"name": "SourceItemLocacao"
+					"name": "SourcePedidoLocacao"
 				},
 				{
 					"dataset": {
@@ -166,7 +166,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> SourceItemLocacao",
+				"     format: 'parquet') ~> SourcePedidoLocacao",
 				"source(output(",
 				"          Cd_cliente as integer,",
 				"          Nm_Cliente as string,",
@@ -246,7 +246,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SourceCombustivel",
-				"SourceItemLocacao select(mapColumn(",
+				"SourcePedidoLocacao select(mapColumn(",
 				"          Cd_Cliente,",
 				"          Nr_Pedido,",
 				"          Dt_Locacao,",
