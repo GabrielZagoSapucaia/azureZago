@@ -16,6 +16,19 @@
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "Cd_Estado",
+				"type": "INT32"
+			},
+			{
+				"name": "Nm_Estado",
+				"type": "UTF8"
+			},
+			{
+				"name": "Sigla_Estado",
+				"type": "UTF8"
+			}
+		]
 	}
 }

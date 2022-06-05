@@ -16,6 +16,19 @@
 			},
 			"compressionCodec": "snappy"
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "Cd_Cidade",
+				"type": "INT32"
+			},
+			{
+				"name": "Nm_Cidade",
+				"type": "UTF8"
+			},
+			{
+				"name": "Cd_Estado",
+				"type": "INT32"
+			}
+		]
 	}
 }
